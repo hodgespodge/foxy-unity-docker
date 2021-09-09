@@ -4,13 +4,12 @@ This project is an amalgamation of [game-ci](https://github.com/game-ci/docker) 
 
 The unity3D version is 2020.3.11f 
 
-**
-How I build
-**
+**How I build**
+
 docker build -t foxy-unity:hub .
 
 
-**How I run **
+**How I run**
 
 rocker --nvidia --x11 --volume $(pwd)/shared:/shared --   foxy-unity:hub 
 
