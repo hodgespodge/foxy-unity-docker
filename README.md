@@ -2,9 +2,9 @@
 
 This project is an amalgamation of [game-ci](https://github.com/game-ci/docker) and [Robotics-Nav2-SLAM-Example](https://github.com/Unity-Technologies/Robotics-Nav2-SLAM-Example)
 
-Ubuntu version: 20.04
-unity3D version: 2020.3.11f 
-ROS2 version: foxy
+- Ubuntu version: 20.04
+- unity3D version: 2020.3.11f 
+- ROS2 version: foxy
 
 **Setup**
 
@@ -14,7 +14,6 @@ ROS2 version: foxy
 build the docker with: 
 
 > docker build -t ros-unity:foxy .
-> 
 
 **How to run**
 
@@ -25,12 +24,17 @@ build the docker with:
 
 Rocker note: you only need to start/run the container with rocker. You can exec in as normal.
 
-**How to exec in (connect in another window)**
+**How to exec in (connect from another window)**
 
-- In a new window, get container name with 
+In a new window, get container name with 
 
 > docker ps
 
-- Then connect with
+Then connect with
 
-> docker exec -it <\container name>\ /bin/bash
+> docker exec -it <container name> /bin/bash
+
+
+**TODO**
+
+- Make container user non-root
