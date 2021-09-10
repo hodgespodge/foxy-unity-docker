@@ -32,7 +32,7 @@ In a new window, get container name with
 
 Then connect with
 
-> docker exec -it <container name> /bin/bash
+> docker exec -it \<container name\> /bin/bash
 
 
 **TODO**
