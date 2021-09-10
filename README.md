@@ -2,19 +2,35 @@
 
 This project is an amalgamation of [game-ci](https://github.com/game-ci/docker) and [Robotics-Nav2-SLAM-Example](https://github.com/Unity-Technologies/Robotics-Nav2-SLAM-Example)
 
-The unity3D version is 2020.3.11f 
+Ubuntu version: 20.04
+unity3D version: 2020.3.11f 
+ROS2 version: foxy
 
-**How I build**
+**Setup**
 
-docker build -t foxy-unity:hub .
+- If you have a .ulf license file already, copy it to the shared folder. Otherwise license instructions will be provided later.
+- The shared volume is shared between the container and the local host. The shared readme has a few commands you can run in the container.
 
+build the docker with: 
 
-**How I run**
+> docker build -t ros-unity:foxy .
+> 
 
-rocker --nvidia --x11 --volume $(pwd)/shared:/shared --   foxy-unity:hub 
+**How to run**
 
-# TODO 
+- I run docker using rocker for graphics card support. You may have an alternate way of running the container with graphics. 
+- It's important that the shared volume is included since that's where Unity looks for the license.
 
-Right now, the idea is to put one's Unity_lic.ulf file into the shared folder so that you don't have to make a new each time you launch the container. 
+> rocker --nvidia --x11 --volume $(pwd)/shared:/shared --   ros-unity:foxy 
 
-The problem is, right now I don't know how to make unity-hub recognize the Unity_lic.ulf file in the build process. 
+Rocker note: you only need to start/run the container with rocker. You can exec in as normal.
+
+**How to exec in (connect in another window)**
+
+- In a new window, get container name with 
+
+> docker ps
+
+- Then connect with
+
+> docker exec -it <\container name>\ /bin/bash

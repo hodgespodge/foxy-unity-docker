@@ -116,4 +116,4 @@ RUN echo "$module" | grep -q -v 'webgl' \
     && rm -rf /var/lib/apt/lists/*
 
 COPY scripts/ scripts
-RUN cat scripts/keycp.sh >> ~/.bashrc
+RUN cat scripts/license.sh >> ~/.bashrc
