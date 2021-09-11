@@ -8,7 +8,7 @@ This project is an amalgamation of [game-ci](https://github.com/game-ci/docker) 
 
 **Setup**
 
-- If you have a .ulf license file already, copy it to the shared folder. Otherwise license instructions will be provided later.
+- If you have a .ulf license file already, copy it to the shared folder. Otherwise license instructions will be provided upon running the container.
 - The shared volume is shared between the container and the local host. The shared readme has a few commands you can run in the container.
 
 build the docker with: 
@@ -17,7 +17,7 @@ build the docker with:
 
 **How to run**
 
-- I run docker using rocker for graphics card support. You may have an alternate way of running the container with graphics. 
+- I run docker using [rocker](https://github.com/osrf/rocker) for graphics card support. You may have an alternate way of running the container with graphics. 
 - It's important that the shared volume is included since that's where Unity looks for the license.
 
 > rocker --nvidia --x11 --volume $(pwd)/shared:/shared --   ros-unity:foxy 
