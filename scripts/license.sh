@@ -2,13 +2,15 @@ EDITOR=/opt/unity/editors/2020.3.11f1/Editor/Unity
 LICENSE_SOURCE=/shared/*.ulf
 LICENSE=false
 
-for f in "$LICENSE_SOURCE"
-do
-    echo "License file found!"
+for file in $LICENSE_SOURCE
+do  
+    [ -e "$file" ] || continue
+    echo "License file $file found!"
     $EDITOR -batchmode -manualLicenseFile $f -logfile
     LICENSE=true
     break
 done
+
 
 if [ ! $LICENSE ]
 then
