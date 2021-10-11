@@ -1,6 +1,6 @@
 # Unity and ROS2 Foxy with Nav2 SLAM Example
 
-This project is an amalgamation of [game-ci](https://github.com/game-ci/docker) and [Robotics-Nav2-SLAM-Example](https://github.com/Unity-Technologies/Robotics-Nav2-SLAM-Example)
+This project is an amalgamation of [gui-docker](https://github.com/bandi13/gui-docker), [game-ci](https://github.com/game-ci/docker) and [Robotics-Nav2-SLAM-Example](https://github.com/Unity-Technologies/Robotics-Nav2-SLAM-Example)
 
 - Ubuntu version: 20.04
 - unity3D version: 2020.3.11f 
@@ -17,24 +17,18 @@ build the docker with:
 
 **How to run**
 
-- I run docker using [rocker](https://github.com/osrf/rocker) for graphics card support. You may have an alternate way of running the container with graphics. 
-- It's important that the shared volume is included since that's where Unity looks for the license.
+> docker run --shm-size=256m -it -p 5901:5901 -e VNC_PASSWD=123456  -v $(pwd)/shared:/shared foxy-unity:vnc
 
-> rocker --nvidia --x11 --volume $(pwd)/shared:/shared --   ros-unity:foxy 
+Your VNC_PASSWD should match whichever password you define in the dockerfile
 
-Rocker note: you only need to start/run the container with rocker. You can exec in as normal.
+**How to use once running**
 
-**How to exec in (connect from another window)**
+Go to the noVNC HTML client url in your favorite web browser and connect.
 
-In a new window, get container name with 
+You can right click and go to Applications>Shells>Bash to get a working terminal. 
 
-> docker ps
+For convenience, the following aliases have been provided
 
-Then connect with
-
-> docker exec -it \<container name\> /bin/bash
-
-
-**TODO**
-
-- Make container user non-root
+> alias rviz_example = ros2 launch unity_slam_example unity_slam_example.py
+> 
+> alias unity_example = /opt/unity/editors/2020.3.11f1/Editor/Unity -projectPath /Robotics-Nav2-SLAM-Example/Nav2SLAMExampleProject/
