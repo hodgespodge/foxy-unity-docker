@@ -3,7 +3,7 @@ FROM osrf/ros:foxy-desktop as builder
 
 # Use environment variable to allow custom VNC passwords
 ENV VNC_PASSWD=123456
-
+# USER dockerUser
 
 ENV UNITY_PATH="/opt/unity"
 ENV LANG C.UTF-8
@@ -79,7 +79,7 @@ RUN mkdir -p "${UNITY_PATH}/editors" \
 #=======================================================================================
 
 RUN apt-get update &&\
-    git clone https://github.com/Unity-Technologies/Robotics-Nav2-SLAM-Example.git
+    git clone https://github.com/Unity-Technologies/Robotics-Nav2-SLAM-Example.git    
     
 COPY .gitmodules Robotics-Nav2-SLAM-Example/.gitmodules
 
@@ -97,7 +97,8 @@ RUN cd /Robotics-Nav2-SLAM-Example/ros2_docker/colcon_ws &&\
 #
 # Note: version and changelog must BOTH be set when specifying version
 #=======================================================================================
-RUN /usr/bin/xvfb-run -ae /dev/stdout /opt/unity/UnityHub --no-sandbox --headless install --version 2020.3.11f1 -c 99c7afb366b3
+RUN echo "Installing may take a while..." &&\
+    /usr/bin/xvfb-run -ae /dev/stdout /opt/unity/UnityHub --no-sandbox --headless install --version 2020.3.11f1 -c 99c7afb366b3
 
 #=======================================================================================
 # [2020.x/2020.2.0/2020.2.1-webgl] Support GZip compression: https://github.com/game-ci/docker/issues/75
@@ -151,21 +152,23 @@ RUN ln -snf /usr/share/zoneinfo/UTC /etc/localtime && echo UTC > /etc/timezone
 # Add in a health status
 HEALTHCHECK --start-period=10s CMD bash -c "if [ \"`pidof -x Xtigervnc | wc -l`\" == "1" ]; then exit 0; else exit 1; fi"
 
-# Add in non-root user
-ENV UID_OF_DOCKERUSER 1000
-RUN useradd -m -s /bin/bash -g users -u ${UID_OF_DOCKERUSER} dockerUser
-RUN chown -R dockerUser:users /home/dockerUser && chown dockerUser:users /opt
+# # Add in non-root user
+# ENV UID_OF_DOCKERUSER 1000
+# RUN useradd -m -s /bin/bash -g users -u ${UID_OF_DOCKERUSER} dockerUser
+# RUN chown -R dockerUser:users /home/dockerUser && chown dockerUser:users /opt
 
 
 
 
 RUN mkdir /opt/startup_scripts
 
-USER dockerUser
+
 
 # Copy various files to their respective places
-COPY --chown=dockerUser:users scripts/container_startup.sh /opt/container_startup.sh
-COPY --chown=dockerUser:users scripts/x11vnc_entrypoint.sh /opt/x11vnc_entrypoint.sh
+# COPY --chown=dockerUser:users scripts/container_startup.sh /opt/container_startup.sh
+# COPY --chown=dockerUser:users scripts/x11vnc_entrypoint.sh /opt/x11vnc_entrypoint.sh
+COPY scripts/container_startup.sh /opt/container_startup.sh
+COPY scripts/x11vnc_entrypoint.sh /opt/x11vnc_entrypoint.sh
 # Subsequent images can put their scripts to run at startup here
 
 RUN echo '. /opt/ros/$ROS_DISTRO/setup.sh' >> ~/.bashrc &&\
@@ -176,6 +179,8 @@ RUN echo '. /opt/ros/$ROS_DISTRO/setup.sh' >> ~/.bashrc &&\
 RUN echo "alias rviz_example='ros2 launch unity_slam_example unity_slam_example.py' " >> ~/.bashrc &&\
     echo "alias unity_example='/opt/unity/editors/2020.3.11f1/Editor/Unity -projectPath /Robotics-Nav2-SLAM-Example/Nav2SLAMExampleProject/' " >> ~/.bashrc
     
+# Export display 0 
+RUN echo 'export DISPLAY=:0' >> ~/.bashrc
     
 ENTRYPOINT ["/opt/container_startup.sh"]
 
