@@ -30,5 +30,10 @@ You can right click and go to Applications>Shells>Bash to get a working terminal
 For convenience, the following aliases have been provided
 
 > alias rviz_example = ros2 launch unity_slam_example unity_slam_example.py
-> 
+>
 > alias unity_example = /opt/unity/editors/2020.3.11f1/Editor/Unity -projectPath /Robotics-Nav2-SLAM-Example/Nav2SLAMExampleProject/
+
+**Note**
+
+If your license is included but unity still complains, run 
+> /opt/unity/editors/2020.3.11f1/Editor/Unity -batchmode -manualLicenseFile /shared/*.ulf -logfile
